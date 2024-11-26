@@ -1,4 +1,4 @@
-package hrm.hrm_project;
+package hrm.hrm_project.presentation.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -12,3 +12,4 @@ public class HelloController {
         welcomeText.setText("Welcome to JavaFX Application!");
     }
 }
+
