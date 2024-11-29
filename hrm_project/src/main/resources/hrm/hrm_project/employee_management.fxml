@@ -35,7 +35,7 @@
                      <children>
                         <HBox alignment="CENTER" layoutY="692.0" prefHeight="63.0" prefWidth="882.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="692.0">
                            <children>
-                              <Button alignment="CENTER" mnemonicParsing="false" prefHeight="37.0" prefWidth="150.0" style="-fx-background-color: #4881ea;" text="ADD / SAVE" textAlignment="CENTER">
+                              <Button alignment="CENTER" mnemonicParsing="false" prefHeight="37.0" prefWidth="150.0" style="-fx-background-color: #4881ea;" text="ADD" textAlignment="CENTER" onAction="#switchToAddEmployee">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="50.0" right="50.0" top="10.0" />
                                  </HBox.margin>

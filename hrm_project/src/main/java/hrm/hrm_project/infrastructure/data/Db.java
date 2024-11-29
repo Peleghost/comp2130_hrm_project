@@ -6,11 +6,13 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 
+// DB class to handle db operations, open/close connection, logging
 public class Db {
     private static Connection _conn;
     private static final Logger _logger = Logger.getLogger(Db.class.getName());
-    private static final String _dbPath = "jdbc:sqlite:src" + File.separator + "database"
-            + File.separator + "hrm.db";
+
+    private static final String _dbPath = "jdbc:sqlite:hrm_project" + File.separator +
+            "src" + File.separator + "database" + File.separator + "hrm.db";
 
     public static Connection getConnection() {
         try {
@@ -40,5 +42,16 @@ public class Db {
 
     public static Logger getLogger() {
         return _logger;
+    }
+
+    // Get result from the DB operation
+    public static class DbResult {
+        public boolean success;
+        public String message;
+
+        public DbResult(boolean success, String message) {
+            this.success = success;
+            this.message = message;
+        }
     }
 }

@@ -24,7 +24,7 @@
                   <Font size="96.0" />
                </font>
             </Label>
-            <Label layoutX="11.0" layoutY="378.0" text="Human Resource Management Software">
+            <Label layoutX="11.0" layoutY="378.0" text="Human Resource Management System">
                <font>
                   <Font size="26.0" />
                </font>

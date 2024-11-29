@@ -8,14 +8,14 @@ public class Employee extends User {
     private String phone;
 
     public Employee(String username, String password, String firstName,
-                    String lastName, String email, String phone) {
+                    String lastName, String email, String phone, String role) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
-        this.role = "user";
+        this.role = role;
     }
 
     public Employee() {}

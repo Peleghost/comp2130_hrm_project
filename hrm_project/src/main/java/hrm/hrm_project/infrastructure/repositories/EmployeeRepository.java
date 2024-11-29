@@ -12,12 +12,15 @@ import java.util.logging.Logger;
 // Repository for Employee class
 // To house database related methods
 public class EmployeeRepository implements IEmployee {
-    private static final Connection conn = Db.getConnection();
+    private static Connection conn = Db.getConnection();
     private static final Logger logger = Db.getLogger();
 
     // Example of repository pattern
-    // *May be modified in future
-    public void insertEmployee(Employee emp) {
+    public Db.DbResult insertEmployee(Employee emp) throws SQLException {
+        if (conn.isClosed()) {
+            conn = Db.getConnection();
+        }
+
         // Prepare parameters
         String sql = "INSERT INTO Employees (username, password, first_name" +
                 ", last_name, email, phone, role)" +
@@ -43,6 +46,9 @@ public class EmployeeRepository implements IEmployee {
             // Close connection if failed
             Db.closeConnection();
             logger.info(ex.toString());
+            return new Db.DbResult(false, ex.getMessage());
         }
+
+        return new Db.DbResult(true, "Success");
     }
 }

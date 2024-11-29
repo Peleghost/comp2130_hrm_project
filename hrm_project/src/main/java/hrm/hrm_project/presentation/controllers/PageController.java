@@ -38,6 +38,15 @@ public class PageController {
         stage.show();
     }
 
+    public void switchToAddEmployee(ActionEvent event) throws IOException {
+        URL url = getClass().getResource(AppConstants.ADD_EMPLOYEE_FXML);
+        Parent root = FXMLLoader.load(url);
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
     public void switchToPayroll(ActionEvent event) throws IOException {
         URL url = getClass().getResource(AppConstants.PAYROLL_FXML);
         Parent root = FXMLLoader.load(url);

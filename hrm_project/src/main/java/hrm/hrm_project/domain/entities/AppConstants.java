@@ -6,4 +6,5 @@ public class AppConstants {
     public static final String EMPLOYEE_FXML = "/hrm/hrm_project/employee_management.fxml";
     public static final String PAYROLL_FXML = "/hrm/hrm_project/payroll.fxml";
     public static final String REPORTING_FXML = "/hrm/hrm_project/reporting.fxml";
+    public static final String ADD_EMPLOYEE_FXML = "/hrm/hrm_project/add_employee.fxml";
 }
