@@ -1,21 +1,25 @@
 package hrm.hrm_project.domain.entities;
 
-public class Employee extends User {
-    private String password;
+import java.time.LocalDateTime;
+import java.util.Date;
+
+public class Employee {
+    private int id;
     private String firstName;
     private String lastName;
     private String email;
     private String phone;
+    private String hireDate = LocalDateTime.now().toString();
+    private double salary;
 
-    public Employee(String username, String password, String firstName,
-                    String lastName, String email, String phone, String role) {
-        this.username = username;
-        this.password = password;
+    public Employee(String firstName, String lastName, String email,
+                        String phone, double salary) {
+
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
-        this.role = role;
+        this.salary = salary;
     }
 
     public Employee() {}
@@ -28,12 +32,20 @@ public class Employee extends User {
         this.phone = phone;
     }
 
-    public String getPassword() {
-        return password;
+    public String getHireDate() {
+        return hireDate;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setHireDate(String hireDate) {
+        this.hireDate = hireDate;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(double salary) {
+        this.salary = salary;
     }
 
     public String getEmail() {
@@ -60,14 +72,6 @@ public class Employee extends User {
         this.firstName = firstName;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public int getId() {
         return id;
     }
@@ -76,7 +80,4 @@ public class Employee extends User {
         this.id = id;
     }
 
-    public String getRole() {
-        return role;
-    }
 }

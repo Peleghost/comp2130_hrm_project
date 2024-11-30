@@ -9,9 +9,9 @@ public interface IEmployee {
     
     Db.DbResult insertEmployee(Employee emp) throws SQLException;
 
-    Employee getEmployeeByUsername(String username);
+    Employee getEmployeeById(int id);
    
     Db.DbResult updateEmployee(Employee emp) throws SQLException;
 
-    Db.DbResult deleteEmployee(String username) throws SQLException;
+    Db.DbResult deleteEmployee(int id) throws SQLException;
 }

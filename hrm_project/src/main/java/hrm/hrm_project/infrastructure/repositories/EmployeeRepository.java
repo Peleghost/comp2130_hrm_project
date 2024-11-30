@@ -7,10 +7,11 @@ import java.sql.SQLException;
 import java.util.logging.Logger;
 
 import hrm.hrm_project.domain.entities.Employee;
+import hrm.hrm_project.domain.interfaces.IEmployee;
 import hrm.hrm_project.infrastructure.data.Db;
 
 // Repository for Employee class
-public class EmployeeRepository {
+public class EmployeeRepository implements IEmployee {
     private static Connection conn = Db.getConnection();
     private static final Logger logger = Db.getLogger();
 
@@ -20,19 +21,20 @@ public class EmployeeRepository {
             conn = Db.getConnection();
         }
 
-        String sql = "INSERT INTO Employees (username, password, first_name, last_name, email, phone, role)" +
+        String sql = "INSERT INTO Employees (first_name, last_name, email, phone_number, hire_date, salary)" +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, emp.getUsername());
-            stmt.setString(2, emp.getPassword());
-            stmt.setString(3, emp.getFirstName());
-            stmt.setString(4, emp.getLastName());
-            stmt.setString(5, emp.getEmail());
-            stmt.setString(6, emp.getPhone());
-            stmt.setString(7, emp.getRole());
+            stmt.setString(1, emp.getFirstName());
+            stmt.setString(2, emp.getLastName());
+            stmt.setString(3, emp.getEmail());
+            stmt.setString(4, emp.getPhone());
+            stmt.setString(5, emp.getHireDate());
+            stmt.setDouble(6, emp.getSalary());
 
             stmt.executeUpdate();
-            logger.info("Inserted new employee: " + emp.getUsername());
+
+            logger.info("Inserted new employee: " + emp.getFirstName() + " " + emp.getLastName());
+
             return new Db.DbResult(true, "Employee added successfully");
         } catch (SQLException ex) {
             logger.warning("Failed to insert employee: " + ex.getMessage());
@@ -42,21 +44,23 @@ public class EmployeeRepository {
         }
     }
 
-    // Get an employee by username
-    public Employee getEmployeeByUsername(String username) {
-        String sql = "SELECT * FROM Employees WHERE username = ?";
+    // Get an employee by id
+    public Employee getEmployeeById(int id) {
+        String sql = "SELECT first_name, last_name, email, phone_number, " +
+                "salary FROM Employees WHERE id = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, username);
+
+            stmt.setInt(1, id);
+
             ResultSet rs = stmt.executeQuery();
+
             if (rs.next()) {
                 return new Employee(
-                        rs.getString("username"),
-                        rs.getString("password"),
                         rs.getString("first_name"),
                         rs.getString("last_name"),
                         rs.getString("email"),
-                        rs.getString("phone"),
-                        rs.getString("role")
+                        rs.getString("phone_number"),
+                        rs.getDouble("salary")
                 );
             }
         } catch (SQLException ex) {
@@ -67,18 +71,20 @@ public class EmployeeRepository {
 
     // Update an existing employee
     public Db.DbResult updateEmployee(Employee emp) throws SQLException {
-        String sql = "UPDATE Employees SET password = ?, first_name = ?, last_name = ?, email = ?, phone = ?, role = ? WHERE username = ?";
+        String sql = "UPDATE Employees SET first_name = ?, last_name = ?, email = ?, " +
+                "phone_number = ?, salary = ?  WHERE username = ?";
+
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, emp.getPassword());
-            stmt.setString(2, emp.getFirstName());
-            stmt.setString(3, emp.getLastName());
-            stmt.setString(4, emp.getEmail());
-            stmt.setString(5, emp.getPhone());
-            stmt.setString(6, emp.getRole());
-            stmt.setString(7, emp.getUsername());
+            stmt.setString(1, emp.getFirstName());
+            stmt.setString(2, emp.getLastName());
+            stmt.setString(3, emp.getEmail());
+            stmt.setString(4, emp.getPhone());
+            stmt.setDouble(5, emp.getSalary());
 
             stmt.executeUpdate();
-            logger.info("Updated employee: " + emp.getUsername());
+
+            logger.info("Updated employee: " + emp.getId() + " " + emp.getFirstName());
+
             return new Db.DbResult(true, "Employee updated successfully");
         } catch (SQLException ex) {
             logger.warning("Error updating employee: " + ex.getMessage());
@@ -89,12 +95,15 @@ public class EmployeeRepository {
     }
 
     // Delete an employee
-    public Db.DbResult deleteEmployee(String username) throws SQLException {
-        String sql = "DELETE FROM Employees WHERE username = ?";
+    public Db.DbResult deleteEmployee(int id) throws SQLException {
+        String sql = "DELETE FROM Employees WHERE id = ?";
+
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, username);
+            stmt.setInt(1, id);
             stmt.executeUpdate();
-            logger.info("Deleted employee: " + username);
+
+            logger.info("Deleted employee: " + id);
+
             return new Db.DbResult(true, "Employee deleted successfully");
         } catch (SQLException ex) {
             logger.warning("Error deleting employee: " + ex.getMessage());
