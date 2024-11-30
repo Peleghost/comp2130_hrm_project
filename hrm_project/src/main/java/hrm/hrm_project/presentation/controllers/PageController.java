@@ -1,6 +1,10 @@
 package hrm.hrm_project.presentation.controllers;
 
 
+import java.io.IOException;
+import java.net.URL;
+
+import hrm.hrm_project.Main;
 import hrm.hrm_project.domain.entities.AppConstants;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -8,9 +12,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.net.URL;
 
 
 public class PageController {
@@ -73,6 +74,26 @@ public class PageController {
         stage.setScene(scene);
         stage.show();
     }
-}
+    
+    public static void navigateTo(String fxmlFileName) throws IOException {
+            URL url = Main.class.getResource("/hrm/hrm_project/" + fxmlFileName);
+            if (url == null) {
+                throw new IOException("FXML file not found: " + fxmlFileName);
+            }
+
+            Parent root = FXMLLoader.load(url);
+            Stage stage = (Stage) Stage.getWindows().stream()
+                    .filter(window -> window instanceof Stage && ((Stage) window).isShowing())
+                    .findFirst()
+                    .orElse(null);
+
+            if (stage != null) {
+                stage.setScene(new Scene(root));
+                stage.show();
+            } else {
+                throw new IOException("No active stage found for navigation.");
+            }
+        }
+    }
 
 

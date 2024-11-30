@@ -24,16 +24,26 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
     @Override
-    public void start(Stage stage) throws IOException {
-        URL url = getClass().getResource(AppConstants.LOGIN_FXML);
-        Parent root = FXMLLoader.load(url);
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
+    public void start(Stage stage) {
+        try {
+            // Load the login.fxml file
+            URL url = getClass().getResource(AppConstants.LOGIN_FXML);
+            if (url == null) {
+                throw new IOException("FXML file not found: " + AppConstants.LOGIN_FXML);
+            }
+
+            Parent root = FXMLLoader.load(url);
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.setTitle("HRM Login");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {
-        launch();
+        launch(args);
     }
 }
