@@ -1,5 +1,6 @@
 package hrm.hrm_project.infrastructure.repositories;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,6 +9,7 @@ import java.util.logging.Logger;
 
 import hrm.hrm_project.domain.entities.Employee;
 import hrm.hrm_project.infrastructure.data.Db;
+import hrm.hrm_project.utils.PasswordUtil;
 
 // Repository for Employee class
 public class EmployeeRepository {
@@ -102,5 +104,22 @@ public class EmployeeRepository {
         } finally {
             Db.closeConnection();
         }
+    }
+
+    // Login to validate username and password
+    public boolean login(String username, String password) {
+        String sql = "SELECT password FROM Employees WHERE username = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, username);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                String storedPasswordHash = rs.getString("password");
+                // Verify the provided password using PasswordUtil
+                return PasswordUtil.verifyPassword(password, storedPasswordHash);
+            }
+        } catch (SQLException | NoSuchAlgorithmException ex) {
+            logger.warning("Login failed: " + ex.getMessage());
+        }
+        return false; // Login failed
     }
 }

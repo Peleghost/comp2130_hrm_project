@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hrm.hrm_project.presentation.controllers.PageController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hrm.hrm_project.presentation.controllers.LoginController">
    <top>
       <Pane prefHeight="45.0" prefWidth="1080.0" style="-fx-background-color: #6495ED;" BorderPane.alignment="CENTER" />
    </top>
@@ -38,24 +38,25 @@
             <Insets />
          </BorderPane.margin>
          <children>
-            <PasswordField layoutX="287.0" layoutY="362.0" prefHeight="37.0" prefWidth="240.0" AnchorPane.bottomAnchor="356.0" AnchorPane.leftAnchor="287.0" AnchorPane.rightAnchor="89.0" AnchorPane.topAnchor="362.0" />
-            <TextField layoutX="288.0" layoutY="285.0" prefHeight="37.0" prefWidth="238.0" AnchorPane.bottomAnchor="433.0" AnchorPane.leftAnchor="288.0" AnchorPane.rightAnchor="90.0" AnchorPane.topAnchor="285.0" />
-            <Label layoutX="97.0" layoutY="288.0" prefHeight="31.0" prefWidth="155.0" text="Username" AnchorPane.bottomAnchor="436.0" AnchorPane.leftAnchor="97.0" AnchorPane.rightAnchor="364.0" AnchorPane.topAnchor="288.0">
+            <PasswordField fx:id="passwordField" layoutX="287.0" layoutY="362.0" prefHeight="37.0" prefWidth="240.0" promptText="Enter your password" />
+            <TextField fx:id="usernameField" layoutX="288.0" layoutY="285.0" prefHeight="37.0" prefWidth="238.0" promptText="Enter your username" />
+            <Label layoutX="97.0" layoutY="288.0" prefHeight="31.0" prefWidth="155.0" text="Username">
                <font>
                   <Font size="24.0" />
                </font>
             </Label>
-            <Label layoutX="97.0" layoutY="365.0" prefHeight="31.0" prefWidth="155.0" text="Password" AnchorPane.bottomAnchor="359.0" AnchorPane.leftAnchor="97.0" AnchorPane.rightAnchor="364.0" AnchorPane.topAnchor="365.0">
+            <Label layoutX="97.0" layoutY="365.0" prefHeight="31.0" prefWidth="155.0" text="Password">
                <font>
                   <Font size="24.0" />
                </font>
             </Label>
-            <Button layoutX="288.0" layoutY="442.0" mnemonicParsing="false" onAction="#switchToHome" prefHeight="36.0" prefWidth="127.0" text="Login" AnchorPane.bottomAnchor="277.0" AnchorPane.leftAnchor="288.0" AnchorPane.rightAnchor="201.0" AnchorPane.topAnchor="442.0" />
+            <Button layoutX="288.0" layoutY="442.0" mnemonicParsing="false" onAction="#handleLogin" prefHeight="36.0" prefWidth="127.0" text="Login" />
             <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="233.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../images/logo.png" />
                </image>
             </ImageView>
+            <Label fx:id="errorLabel" layoutX="288.0" layoutY="400.0" textFill="red" />
          </children>
       </AnchorPane>
    </center>
