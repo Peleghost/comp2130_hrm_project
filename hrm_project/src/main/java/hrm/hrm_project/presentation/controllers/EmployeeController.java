@@ -1,26 +1,31 @@
 package hrm.hrm_project.presentation.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import hrm.hrm_project.domain.entities.Employee;
-import hrm.hrm_project.domain.interfaces.IEmployee;
 import hrm.hrm_project.infrastructure.data.Db;
 import hrm.hrm_project.infrastructure.repositories.EmployeeRepository;
+import hrm.hrm_project.utils.CommonUtil.ValidationResult;
+import static hrm.hrm_project.utils.CommonUtil.alertMsg;
+import static hrm.hrm_project.utils.CommonUtil.maxTextFieldChars;
+import static hrm.hrm_project.utils.CommonUtil.setTextFieldErrStyle;
+import static hrm.hrm_project.utils.CommonUtil.validateEmptyFields;
+import static hrm.hrm_project.utils.EmployeeUtil.formatPhoneNum;
+import static hrm.hrm_project.utils.EmployeeUtil.isValidEmail;
+import static hrm.hrm_project.utils.EmployeeUtil.isValidPhone;
+import static hrm.hrm_project.utils.EmployeeUtil.roleSelected;
+import static hrm.hrm_project.utils.EmployeeUtil.validateName;
+import static hrm.hrm_project.utils.EmployeeUtil.validateNewUserPassword;
 import hrm.hrm_project.utils.PasswordUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static hrm.hrm_project.utils.CommonUtil.*;
-import static hrm.hrm_project.utils.EmployeeUtil.*;
-
 public class EmployeeController extends PageController {
-    // For DB operations
-    private final IEmployee empRepo = new EmployeeRepository();
-    //
-//    public ComboBox<String> roleCombo;
+    // For database operations
+    private final EmployeeRepository empRepo = new EmployeeRepository();
     private String selectedRole;
     private final List<TextField> requiredFields = new ArrayList<>();
 
@@ -33,24 +38,24 @@ public class EmployeeController extends PageController {
     @FXML private TextField passwordField;
     @FXML private TextField confirmPasswordField;
 
+    // Clear all fields in the form
     private void clearFields() {
-        firstNameField.setText(null);
-        lastNameField.setText(null);
-        emailField.setText(null);
-        phoneField.setText(null);
-        usernameField.setText(null);
-        roleCombo.valueProperty().setValue(null);
-        passwordField.setText(null);
-        confirmPasswordField.setText(null);
+        firstNameField.clear();
+        lastNameField.clear();
+        emailField.clear();
+        phoneField.clear();
+        usernameField.clear();
+        roleCombo.setValue(null);
+        passwordField.clear();
+        confirmPasswordField.clear();
     }
 
     @FXML
     private void initialize() {
-        roleCombo.setOnAction(event -> {
-            selectedRole = roleCombo.getValue();
-        });
+        // Set up role ComboBox
+        roleCombo.setOnAction(event -> selectedRole = roleCombo.getValue());
 
-        // Setting max input for text fields
+        // Set maximum character limits for text fields
         maxTextFieldChars(firstNameField, 30);
         maxTextFieldChars(lastNameField, 30);
         maxTextFieldChars(emailField, 40);
@@ -59,7 +64,7 @@ public class EmployeeController extends PageController {
         maxTextFieldChars(passwordField, 20);
         maxTextFieldChars(confirmPasswordField, 20);
 
-        // To check for any empty fields
+        // Add all required fields for empty validation
         requiredFields.add(firstNameField);
         requiredFields.add(lastNameField);
         requiredFields.add(emailField);
@@ -72,74 +77,77 @@ public class EmployeeController extends PageController {
     @FXML
     private void handleSubmit() {
         try {
-            String fName = firstNameField.getText().trim();
-            String lName = lastNameField.getText().trim();
+            // Collect field values
+            String firstName = firstNameField.getText().trim();
+            String lastName = lastNameField.getText().trim();
             String email = emailField.getText().trim();
-            String phoneNum = phoneField.getText().trim();
-            String password = passwordField.getText().trim();
-            String confirmPass = confirmPasswordField.getText().trim();
+            String phone = phoneField.getText().trim();
             String username = usernameField.getText().trim();
+            String password = passwordField.getText().trim();
+            String confirmPassword = confirmPasswordField.getText().trim();
 
-            // Fields' validation
-            if(validateEmptyFields(requiredFields)) {
-                throw new Exception("Fields cannot be empty");
+            // Validate fields
+            if (validateEmptyFields(requiredFields)) {
+                throw new Exception("All fields are required");
             }
 
-            ValidationResult fNameResult = validateName(fName);
-            ValidationResult lNameResult = validateName(lName);
+            // Validate names
+            ValidationResult firstNameResult = validateName(firstName);
+            ValidationResult lastNameResult = validateName(lastName);
+            if (!firstNameResult.isValid) throw new Exception(firstNameResult.errorMsg);
+            if (!lastNameResult.isValid) throw new Exception(lastNameResult.errorMsg);
 
-            if (!fNameResult.isValid) {
-                throw new Exception(fNameResult.errorMsg);
-            } else if (!lNameResult.isValid) {
-                throw new Exception(lNameResult.errorMsg);
-            }
-
+            // Validate email
             if (!isValidEmail(email)) {
                 setTextFieldErrStyle(emailField);
                 throw new Exception("Invalid email format");
             }
 
-            if (!isValidPhone(phoneNum)) {
+            // Validate phone
+            if (!isValidPhone(phone)) {
                 setTextFieldErrStyle(phoneField);
-                throw new Exception("Invalid phone number, make sure to input only 10 digits");
+                throw new Exception("Phone number must contain exactly 10 digits");
             }
 
+            // Validate role selection
             if (!roleSelected(selectedRole)) {
                 roleCombo.setStyle("-fx-background-color: red;");
-                throw new Exception("Must select a User Role");
+                throw new Exception("Please select a role");
             }
 
-            ValidationResult passResult = validateNewUserPassword(password, confirmPass);
-            if (!passResult.isValid) {
+            // Validate password
+            ValidationResult passwordResult = validateNewUserPassword(password, confirmPassword);
+            if (!passwordResult.isValid) {
                 setTextFieldErrStyle(passwordField);
                 setTextFieldErrStyle(confirmPasswordField);
-
-                throw new Exception(passResult.errorMsg);
+                throw new Exception(passwordResult.errorMsg);
             }
 
-            // Format phone number - (111) 222-3333
-            String formattedPhone = formatPhoneNum(phoneField.getText().trim());
+            // Format phone number: (111) 222-3333
+            String formattedPhone = formatPhoneNum(phone);
 
-            // Password hash
-            String hashedPass = PasswordUtil.hashPassword(passwordField.getText().trim());
+            // Hash the password
+            String hashedPassword = PasswordUtil.hashPassword(password);
 
-            // All good
-            Employee employee = new Employee(username, hashedPass, fName, lName,
-                                        email, formattedPhone, selectedRole);
+            // Create a new Employee object
+            Employee employee = new Employee(
+                username, hashedPassword, firstName, lastName, email, formattedPhone, selectedRole
+            );
 
+            // Save employee to the database
             Db.DbResult dbResult = empRepo.insertEmployee(employee);
 
             if (!dbResult.success) {
                 throw new Exception(dbResult.message);
-            } else {
-                alertMsg(dbResult.message, Alert.AlertType.INFORMATION);
-                clearFields();
-                roleCombo.setStyle("");
             }
-        }
-        catch (Exception ex) {
+
+            // Success message and clear fields
+            alertMsg(dbResult.message, Alert.AlertType.INFORMATION);
+            clearFields();
+            roleCombo.setStyle("");
+        } catch (Exception ex) {
+            // Show warning for any exception
             alertMsg(ex.getMessage(), Alert.AlertType.WARNING);
         }
     }
-
 }

@@ -6,25 +6,21 @@
 // ---------- Members ----------
 // Fellipe C.T.C - 101497831
 // Ayesha Akbar --
-// Claire Lee ----
+// Claire Lee ---- 100882058
 // Suthan Suresh -
 //
 
 package hrm.hrm_project;
 
+import java.io.IOException;
+import java.net.URL;
+
 import hrm.hrm_project.domain.entities.AppConstants;
-import hrm.hrm_project.domain.entities.Employee;
-import hrm.hrm_project.domain.interfaces.IEmployee;
-import hrm.hrm_project.infrastructure.repositories.EmployeeRepository;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.net.URL;
-import java.sql.SQLException;
 
 public class Main extends Application {
     @Override
