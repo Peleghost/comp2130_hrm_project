@@ -74,26 +74,26 @@ public class PageController {
         stage.setScene(scene);
         stage.show();
     }
-    
+
     public static void navigateTo(String fxmlFileName) throws IOException {
-            URL url = Main.class.getResource("/hrm/hrm_project/" + fxmlFileName);
-            if (url == null) {
-                throw new IOException("FXML file not found: " + fxmlFileName);
-            }
+        URL url = Main.class.getResource("/hrm/hrm_project/" + fxmlFileName);
+        if (url == null) {
+            throw new IOException("FXML file not found: " + fxmlFileName);
+        }
 
-            Parent root = FXMLLoader.load(url);
-            Stage stage = (Stage) Stage.getWindows().stream()
-                    .filter(window -> window instanceof Stage && ((Stage) window).isShowing())
-                    .findFirst()
-                    .orElse(null);
+        Parent root = FXMLLoader.load(url);
+        Stage stage = (Stage) Stage.getWindows().stream()
+                .filter(window -> window instanceof Stage && ((Stage) window).isShowing())
+                .findFirst()
+                .orElse(null);
 
-            if (stage != null) {
-                stage.setScene(new Scene(root));
-                stage.show();
-            } else {
-                throw new IOException("No active stage found for navigation.");
-            }
+        if (stage != null) {
+            stage.setScene(new Scene(root));
+            stage.show();
+        } else {
+            throw new IOException("No active stage found for navigation.");
         }
     }
+}
 
 

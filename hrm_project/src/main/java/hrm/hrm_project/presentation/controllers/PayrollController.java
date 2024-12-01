@@ -2,6 +2,7 @@ package hrm.hrm_project.presentation.controllers;
 
 import hrm.hrm_project.domain.entities.Payroll;
 import hrm.hrm_project.infrastructure.repositories.PayrollRepository;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
@@ -18,6 +19,7 @@ public class PayrollController {
     @FXML
     private void calculatePayroll() {
         try {
+
             // Retrieve user inputs
             int employeeId = Integer.parseInt(employeeIdField.getText());
             double baseSalary = Double.parseDouble(baseSalaryField.getText());
@@ -38,5 +40,29 @@ public class PayrollController {
         } catch (NumberFormatException e) {
             totalPayLabel.setText("Invalid input! Please enter valid numbers.");
         }
+    }
+
+    public void switchToHome(ActionEvent event) throws Exception {
+        PageController.navigateTo("home.fxml");
+    }
+
+    @FXML
+    public void switchToEmployee(ActionEvent event) throws Exception {
+        PageController.navigateTo("employee.fxml");
+    }
+
+    @FXML
+    public void switchToPayroll(ActionEvent event) throws Exception {
+        PageController.navigateTo("payroll.fxml");
+    }
+
+    @FXML
+    public void switchToReporting(ActionEvent event) throws Exception {
+        PageController.navigateTo("reporting.fxml");
+    }
+
+    @FXML
+    public void switchToLogout(ActionEvent event) throws Exception {
+        PageController.navigateTo("login.fxml");
     }
 }
