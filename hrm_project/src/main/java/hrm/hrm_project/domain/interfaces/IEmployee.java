@@ -14,4 +14,6 @@ public interface IEmployee {
     Db.DbResult updateEmployee(Employee emp) throws SQLException;
 
     Db.DbResult deleteEmployee(int id) throws SQLException;
+
+    boolean login(String username, String password);
 }

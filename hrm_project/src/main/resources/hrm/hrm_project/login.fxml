@@ -50,7 +50,8 @@
                   <Font size="24.0" />
                </font>
             </Label>
-            <Button layoutX="288.0" layoutY="442.0" mnemonicParsing="false" onAction="#handleLogin" prefHeight="36.0" prefWidth="127.0" text="Login" />
+            <Button layoutX="269.0" layoutY="443.0" mnemonicParsing="false" onAction="#handleLogin" prefHeight="36.0" prefWidth="127.0" text="Login" />
+            <Button layoutX="419.0" layoutY="443.0" mnemonicParsing="false" onAction="#navigateToCreateAcc" prefHeight="36.0" prefWidth="127.0" text="Create Account" />
             <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="233.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../images/logo.png" />

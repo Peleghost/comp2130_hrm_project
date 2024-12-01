@@ -2,6 +2,7 @@ package hrm.hrm_project.presentation.controllers;
 
 import hrm.hrm_project.domain.entities.User;
 import hrm.hrm_project.domain.interfaces.IUser;
+import hrm.hrm_project.infrastructure.data.Db;
 import hrm.hrm_project.infrastructure.repositories.UserRepository;
 import hrm.hrm_project.utils.CommonUtil;
 import hrm.hrm_project.utils.PasswordUtil;
@@ -27,6 +28,15 @@ public class UserController extends PageController {
     @FXML private ComboBox<String> roleCombo;
     @FXML private PasswordField passwordField;
     @FXML private PasswordField confirmPasswordField;
+
+    @FXML
+    private void navigateToLogin() {
+        try {
+            PageController.navigateTo("login.fxml");
+        } catch (Exception ex) {
+            alertMsg(ex.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
 
     private void clearFields() {
         usernameField.clear();
@@ -80,7 +90,14 @@ public class UserController extends PageController {
 
             User user = new User(username, hashedPassword, selectedRole);
 
+            Db.DbResult userResult = userRepo.insertUser(user);
 
+            if (!userResult.success) {
+                throw new Exception(userResult.message);
+            }
+
+            alertMsg("Success", Alert.AlertType.INFORMATION);
+            PageController.navigateTo("home.fxml");
         } catch (Exception ex) {
             alertMsg(ex.getMessage(), Alert.AlertType.WARNING);
         }

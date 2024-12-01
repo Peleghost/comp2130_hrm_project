@@ -1,16 +1,27 @@
 package hrm.hrm_project.presentation.controllers;
 
+import hrm.hrm_project.domain.interfaces.IEmployee;
 import hrm.hrm_project.infrastructure.repositories.EmployeeRepository;
+import hrm.hrm_project.utils.PasswordUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 public class LoginController {
-    private final EmployeeRepository employeeRepository = new EmployeeRepository();
+    private final IEmployee employeeRepository = new EmployeeRepository();
 
     @FXML private TextField usernameField;
     @FXML private PasswordField passwordField;
+
+    @FXML
+    private void navigateToCreateAcc() {
+        try {
+            PageController.navigateTo("create_account.fxml");
+        } catch (Exception ex) {
+            showAlert(ex.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
 
     @FXML
     private void handleLogin() {

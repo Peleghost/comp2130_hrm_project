@@ -25,6 +25,7 @@ public class EmployeeController extends PageController {
     @FXML private TextField lastNameField;
     @FXML private TextField emailField;
     @FXML private TextField phoneField;
+    @FXML private TextField salaryField;
 
     // Clear all fields in the form
     private void clearFields() {
@@ -41,6 +42,7 @@ public class EmployeeController extends PageController {
         maxTextFieldChars(lastNameField, 30);
         maxTextFieldChars(emailField, 40);
         maxTextFieldChars(phoneField, 10);
+        maxTextFieldChars(salaryField, 4);
 
         // Add all required fields for empty validation
         requiredFields.add(firstNameField);
@@ -57,6 +59,7 @@ public class EmployeeController extends PageController {
             String lastName = lastNameField.getText().trim();
             String email = emailField.getText().trim();
             String phone = phoneField.getText().trim();
+            String salary = salaryField.getText().trim();
 
             // Validate fields
             if (validateEmptyFields(requiredFields)) {
@@ -85,22 +88,21 @@ public class EmployeeController extends PageController {
             String formattedPhone = formatPhoneNum(phone);
 
             // Create a new Employee object
-//            Employee employee = new Employee(
-//                firstName, lastName, email, formattedPhone,
-//                    hireDate, salary
-//            );
+            // TODO: Validate salary field
+            Employee employee = new Employee(
+                firstName, lastName, email, formattedPhone, Double.parseDouble(salary)
+            );
 
             // Save employee to the database
-//            Db.DbResult dbResult = empRepo.insertEmployee(employee);
+            Db.DbResult dbResult = empRepo.insertEmployee(employee);
 
-//            if (!dbResult.success) {
-//                throw new Exception(dbResult.message);
-//            }
+            if (!dbResult.success) {
+                throw new Exception(dbResult.message);
+            }
 
             // Success message and clear fields
-//            alertMsg(dbResult.message, Alert.AlertType.INFORMATION);
-//            clearFields();
-//            roleCombo.setStyle("");
+            alertMsg(dbResult.message, Alert.AlertType.INFORMATION);
+            clearFields();
         } catch (Exception ex) {
             // Show warning for any exception
             alertMsg(ex.getMessage(), Alert.AlertType.WARNING);

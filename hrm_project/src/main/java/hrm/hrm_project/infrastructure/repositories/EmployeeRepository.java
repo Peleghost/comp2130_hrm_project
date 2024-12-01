@@ -24,7 +24,7 @@ public class EmployeeRepository implements IEmployee {
         }
 
         String sql = "INSERT INTO Employees (first_name, last_name, email, phone_number, hire_date, salary)" +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+                "VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, emp.getFirstName());
             stmt.setString(2, emp.getLastName());
@@ -117,7 +117,7 @@ public class EmployeeRepository implements IEmployee {
 
     // Login to validate username and password
     public boolean login(String username, String password) {
-        String sql = "SELECT password FROM Employees WHERE username = ?";
+        String sql = "SELECT password FROM users WHERE username = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, username);
             ResultSet rs = stmt.executeQuery();
