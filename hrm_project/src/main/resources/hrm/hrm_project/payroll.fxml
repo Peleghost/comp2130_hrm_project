@@ -6,60 +6,98 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="800.0" maxWidth="1080.0" minHeight="800.0" minWidth="1080.0" prefHeight="800.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hrm.hrm_project.presentation.controllers.PayrollController">
     <top>
-        <Pane prefHeight="45.0" prefWidth="1080.0" styleClass="header-pane" BorderPane.alignment="CENTER">
+        <Pane prefHeight="45.0" prefWidth="1080.0" style="-fx-background-color: #6495ED;" BorderPane.alignment="CENTER">
             <children>
-                <Label layoutX="498.0" layoutY="11.0" text="Payroll" styleClass="header-label" />
+                <Label layoutX="498.0" layoutY="11.0" text="Payroll">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Label>
             </children>
         </Pane>
     </top>
 
     <center>
-        <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #D3D3D3;" BorderPane.alignment="CENTER">
             <children>
-                <GridPane layoutX="280.0" layoutY="100.0" hgap="10" vgap="15" padding="Insets(20, 10, 20, 10)" styleClass="form-pane">
+                <VBox layoutX="197.0" layoutY="119.0" spacing="10">
                     <children>
-                        <Label text="Employee ID" GridPane.rowIndex="0" GridPane.columnIndex="0" />
-                        <TextField fx:id="employeeIdField" GridPane.rowIndex="0" GridPane.columnIndex="1" />
-
-                        <Label text="Base Salary" GridPane.rowIndex="1" GridPane.columnIndex="0" />
-                        <TextField fx:id="baseSalaryField" GridPane.rowIndex="1" GridPane.columnIndex="1" />
-
-                        <Label text="Hours Worked" GridPane.rowIndex="2" GridPane.columnIndex="0" />
-                        <TextField fx:id="hoursWorkedField" GridPane.rowIndex="2" GridPane.columnIndex="1" />
-
-                        <Label text="Overtime Hours" GridPane.rowIndex="3" GridPane.columnIndex="0" />
-                        <TextField fx:id="overtimeHoursField" GridPane.rowIndex="3" GridPane.columnIndex="1" />
-
-                        <Label text="Bonus" GridPane.rowIndex="4" GridPane.columnIndex="0" />
-                        <TextField fx:id="bonusField" GridPane.rowIndex="4" GridPane.columnIndex="1" />
-
-                        <Label text="Tax" GridPane.rowIndex="5" GridPane.columnIndex="0" />
-                        <TextField fx:id="taxField" GridPane.rowIndex="5" GridPane.columnIndex="1" />
-
-                        <Button text="Calculate" onAction="#calculatePayroll" styleClass="primary-button" GridPane.rowIndex="6" GridPane.columnIndex="0" GridPane.columnSpan="2" />
-                        <Label fx:id="totalPayLabel" text="Total Pay: $" styleClass="total-pay-label" GridPane.rowIndex="7" GridPane.columnIndex="0" GridPane.columnSpan="2" />
+                        <HBox>
+                            <Label text="Employee ID">
+                                <font>
+                                    <Font size="18.0" />
+                                </font>
+                            </Label>
+                            <TextField fx:id="employeeIdField" />
+                        </HBox>
+                        <HBox>
+                            <Label text="Base Salary">
+                                <font>
+                                    <Font size="18.0" />
+                                </font>
+                            </Label>
+                            <TextField fx:id="baseSalaryField" />
+                        </HBox>
+                        <HBox>
+                            <Label text="Hours Worked">
+                                <font>
+                                    <Font size="18.0" />
+                                </font>
+                            </Label>
+                            <TextField fx:id="hoursWorkedField" />
+                        </HBox>
+                        <HBox>
+                            <Label text="Overtime Hours">
+                                <font>
+                                    <Font size="18.0" />
+                                </font>
+                            </Label>
+                            <TextField fx:id="overtimeHoursField" />
+                        </HBox>
+                        <HBox>
+                            <Label text="Bonus">
+                                <font>
+                                    <Font size="18.0" />
+                                </font>
+                            </Label>
+                            <TextField fx:id="bonusField" />
+                        </HBox>
+                        <HBox>
+                            <Label text="Tax">
+                                <font>
+                                    <Font size="18.0" />
+                                </font>
+                            </Label>
+                            <TextField fx:id="taxField" />
+                        </HBox>
+                        <Button text="Calculate" onAction="#calculatePayroll" />
+                        <Label fx:id="totalPayLabel" text="Total Pay: $" />
                     </children>
-                </GridPane>
+                </VBox>
             </children>
         </AnchorPane>
     </center>
 
     <left>
-        <VBox spacing="10" styleClass="menu-pane" BorderPane.alignment="CENTER">
+        <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #6495ED;" BorderPane.alignment="CENTER">
             <children>
-                <Button mnemonicParsing="false" onAction="#switchToHome" text="Home" styleClass="menu-button" />
-                <Button mnemonicParsing="false" onAction="#switchToEmployee" text="Employee Management" styleClass="menu-button" />
-                <Button mnemonicParsing="false" onAction="#switchToPayroll" text="Payroll" styleClass="menu-button" />
-                <Button mnemonicParsing="false" onAction="#switchToReporting" text="Reporting" styleClass="menu-button" />
-                <Button mnemonicParsing="false" onAction="#switchToLogout" text="Logout" styleClass="menu-button" />
+                <VBox prefHeight="200.0" prefWidth="200.0">
+                    <children>
+                        <Button mnemonicParsing="false" onAction="#switchToHome" prefHeight="37.0" prefWidth="200.0" style="-fx-background-color: #4881ea;" text="Home" />
+                        <Button mnemonicParsing="false" onAction="#switchToEmployee" prefHeight="37.0" prefWidth="200.0" style="-fx-background-color: #4881ea;" text="Employee Management" />
+                        <Button mnemonicParsing="false" onAction="#switchToPayroll" prefHeight="37.0" prefWidth="200.0" style="-fx-background-color: #4881ea;" text="Payroll" />
+                        <Button mnemonicParsing="false" onAction="#switchToReporting" prefHeight="37.0" prefWidth="200.0" style="-fx-background-color: #4881ea;" text="Reporting" />
+                        <Button mnemonicParsing="false" onAction="#switchToLogout" prefHeight="37.0" prefWidth="200.0" style="-fx-background-color: #4881ea;" text="Logout" />
+                    </children>
+                </VBox>
             </children>
-        </VBox>
+        </Pane>
     </left>
 </BorderPane>
